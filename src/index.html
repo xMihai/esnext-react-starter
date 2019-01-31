@@ -1,12 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <title>Hello World</title>
+    <style>
+      .row {
+        display: flex;
+        justify-content: center;
+        width: 500px;
+      }
+      .row[disabled] {
+        opacity: 0.5;
+      }
+      .token {
+        padding: 10px 20px;
+        font-size: 50px;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+      }
+      .token:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
 
-<head>
-  <title>Hello World</title>
-</head>
-
-<body>
-  <section id="index"></section>
-</body>
-
+  <body>
+    <section id="index"></section>
+  </body>
 </html>
