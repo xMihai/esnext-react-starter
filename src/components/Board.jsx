@@ -1,14 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import {
-  compose,
-  withProps,
-  withStateHandlers,
-  renderComponent,
-} from 'recompose'
+import { compose, withProps, withStateHandlers, renderComponent } from 'recompose'
 
 import { connect } from 'react-redux'
 import { reset, setPlayers, placeToken } from '../store/actions'
-import { getApp, getBoard, getStatus } from '../store/selectors'
+import { getApp, getBoard, getStatus, hasEnded, getWinner } from '../store/selectors'
 
 const Token = withProps(({ token, winner }) => ({
   disabled: winner || token !== '',
@@ -24,7 +19,7 @@ const BoardPres = ({ tokens, winner, ended, placeToken, reset, status }) => (
   <Fragment>
     <div className="board">
       {tokens.map((token, key) => (
-        <Token {...{ key, token, winner, onClick: () => placeToken(key) }} />
+        <Token {...{ key, token, winner, onClick: () => placeToken({ pos: key }) }} />
       ))}
     </div>
     <Status>{status}</Status>
@@ -37,6 +32,8 @@ const NewBoard = connect(
     ...getBoard(state),
     ...getApp(state),
     status: getStatus(state),
+    ended: hasEnded(state),
+    winner: getWinner(state),
   }),
   { reset, placeToken }
 )(BoardPres)

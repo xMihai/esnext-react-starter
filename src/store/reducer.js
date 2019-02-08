@@ -1,3 +1,5 @@
+import { handleActions } from 'redux-actions'
+
 export const initialState = {
   app: { players: ['', ''], playing: false },
   board: {
@@ -8,16 +10,7 @@ export const initialState = {
   },
 }
 
-const lines = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-]
+const lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
 
 const reducers = {
   RESET: () => initialState,
@@ -26,23 +19,16 @@ const reducers = {
     app: { players, playing: true },
   }),
   PLACE_TOKEN: (state, { payload: { pos } }) => {
-    const { winner, ended, turn, tokens } = state.board
+    const { turn, tokens } = state.board
 
-    if (!winner && tokens[pos] === '') {
+    if (tokens[pos] === '') {
       const newTokens = tokens.map((_, i) => (i === pos ? turn : _))
-      const ended = newTokens.every(token => token !== '')
-
-      const hasWon = lines.some(com =>
-        com.every(pos => newTokens[pos] === turn)
-      )
 
       return {
         ...state,
         board: {
           tokens: newTokens,
           turn: turn === 'X' ? '0' : 'X',
-          ended,
-          winner: hasWon ? turn : null,
         },
       }
     }
@@ -50,7 +36,4 @@ const reducers = {
   DEFAULT: state => state,
 }
 
-export const reducer = (state, action) => {
-  console.log('reducer', state, action)
-  return (reducers[action.type] || reducers.DEFAULT)(state, action)
-}
+export const reducer = handleActions(reducers, initialState)

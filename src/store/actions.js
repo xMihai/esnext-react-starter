@@ -1,8 +1,7 @@
-export const reset = () => ({ type: 'RESET' })
+import { createAction } from 'redux-actions'
 
-export const setPlayers = players => ({
-  type: 'SET_PLAYERS',
-  payload: { players },
-})
+export const reset = createAction('RESET')
 
-export const placeToken = pos => ({ type: 'PLACE_TOKEN', payload: { pos } })
+export const setPlayers = createAction('SET_PLAYERS')
+
+export const placeToken = createAction('PLACE_TOKEN')

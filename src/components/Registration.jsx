@@ -12,7 +12,9 @@ const Input = compose(
     onChange: ({ updatePlayer, token }) => ({ target: { value } }) =>
       updatePlayer({ newName: value, pos: Number(token !== 'X') }),
   }),
-  withProps(({ showErrors }) => ({ className: showErrors ? 'with-errors' : '' })),
+  withProps(({ showErrors }) => ({
+    className: showErrors ? 'with-errors' : '',
+  })),
   mapProps(({ showErrors, updatePlayer, ...props }) => props)
 )('input')
 
@@ -34,7 +36,7 @@ const withFormState = withStateHandlers(initialState, {
   }),
   submit: ({ players }, { setPlayers }) => () => {
     if (players.every(Boolean)) {
-      setPlayers(players)
+      setPlayers({ players })
     }
     return { showErrors: true }
   },
