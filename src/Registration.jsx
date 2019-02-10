@@ -1,58 +1,54 @@
-import React, { Component } from 'react'
+import React from 'react'
+
+import { compose, withProps, mapProps, withHandlers, withStateHandlers } from 'recompose'
 
 const initialState = {
   players: ['', ''],
   showErrors: false,
 }
 
-const Row = ({ token, showErrors, onChange }) => (
+const Input = compose(
+  withHandlers({
+    onChange: ({ updatePlayer, token }) => ({ target: { value } }) =>
+      updatePlayer({ newName: value, pos: Number(token !== 'X') }),
+  }),
+  withProps(({ showErrors }) => ({ className: showErrors ? 'with-errors' : '' })),
+  mapProps(({ showErrors, updatePlayer, ...props }) => props)
+)('input')
+
+const Row = ({ token, showErrors, updatePlayer }) => (
   <div className="input-row">
     <div>{token}</div>
     <div>
-      <input {...{ onChange, className: showErrors ? 'with-errors' : '' }} />
+      <Input {...{ token, showErrors, updatePlayer }} />
     </div>
   </div>
 )
 
-const Title = () => <h1 className="title">Name Registration</h1>
+const Title = withProps({ className: 'title', children: 'Name Registration' })('h1')
+const Submit = withProps({ className: 'play', children: 'PLAY' })('button')
 
-const Submit = props => <button {...{ ...props, className: 'play' }}>PLAY</button>
-
-class Registration extends Component {
-  constructor(props) {
-    super(props)
-    this.state = initialState
-    this.submit = this.submit.bind(this)
-  }
-
-  submit() {
-    const { players } = this.state
-    const { setPlayers } = this.props
+const withFormState = withStateHandlers(initialState, {
+  updatePlayer: ({ players }) => ({ newName, pos }) => ({
+    players: players.map((existingName, i) => (i === pos ? newName : existingName)),
+  }),
+  submit: ({ players }, { setPlayers }) => () => {
     if (players.every(Boolean)) {
       setPlayers(players)
     }
+    return { showErrors: true }
+  },
+})
 
-    this.setState({ showErrors: true })
-  }
+const RegPres = ({ showErrors, updatePlayer, submit }) => (
+  <div className="registration">
+    <Title />
+    <Row {...{ token: 'X', showErrors, updatePlayer }} />
+    <Row {...{ token: '0', showErrors, updatePlayer }} />
+    <Submit {...{ onClick: submit }} />
+  </div>
+)
 
-  updatePlayer(pos) {
-    return ({ target: { value: newName } }) => {
-      const { players } = this.state
-      return this.setState({ players: players.map((existingName, i) => (i === pos ? newName : existingName)) })
-    }
-  }
+const NewReg = withFormState(RegPres)
 
-  render() {
-    const { showErrors } = this.state
-    return (
-      <div className="registration">
-        <Title />
-        <Row {...{ token: 'X', showErrors, onChange: this.updatePlayer(0) }} />
-        <Row {...{ token: '0', showErrors, onChange: this.updatePlayer(1) }} />
-        <Submit {...{ onClick: this.submit }} />
-      </div>
-    )
-  }
-}
-
-export default Registration
+export default NewReg
