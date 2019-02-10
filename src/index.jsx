@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { compose } from 'recompose'
 
-const C = () => <div>Hello</div>
+import App from './App'
 
-ReactDOM.render(<C />, document.getElementById('index'))
+ReactDOM.render(<App />, document.getElementById('index'))
