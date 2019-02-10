@@ -12,6 +12,11 @@
     "styled-components": "^4.0.2"
   },
   "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-config-recommended": "^4.0.0",
+    "eslint-plugin-immutable": "^1.0.0",
+    "eslint-plugin-react": "^7.12.4",
     "html-webpack-plugin": "^3.2.0",
     "prettier": "^1.13.5",
     "ts-loader": "^5.2.2",
@@ -23,6 +28,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack --mode production",
-    "compile": "tsc"
+    "compile": "tsc",
+    "lint": "eslint src/**/*.jsx"
   }
 }
