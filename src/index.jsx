@@ -1,6 +1,9 @@
+import { createRoot } from 'react-dom/client'
 import React from 'react'
-import ReactDOM from 'react-dom'
 
-const RootComponent = () => <div>Hello</div>
+import Root from './components/root'
 
-ReactDOM.render(<RootComponent />, document.getElementById('index'))
+const container = document.getElementById('root')
+const root = createRoot(container)
+
+root.render(<Root />)
