@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { compose } from 'recompose'
 
-const C = () => <div>Hello</div>
+const RootComponent = () => <div>Hello</div>
 
-ReactDOM.render(<C />, document.getElementById('index'))
+ReactDOM.render(<RootComponent />, document.getElementById('index'))
