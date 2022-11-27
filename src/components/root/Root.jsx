@@ -1,5 +1,7 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import store from 'store'
 
-const Root = () => <div>Hello</div>
+const Root = () => <Provider {...{ store }}>Hello</Provider>
 
 export default Root

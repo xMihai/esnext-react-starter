@@ -16,7 +16,7 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
   module: {
-    rules: [{ test: /\.jsx?$/, loader: 'ts-loader' }],
+    rules: [{ test: /\.jsx?$/, loader: 'ts-loader', exclude: /node_modules/ }],
   },
   output: {
     filename: '[name].chunkhash.bundle.js',
